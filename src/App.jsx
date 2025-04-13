@@ -1,18 +1,50 @@
 
-import React from 'react'
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "@highleveldev/embedded-sdk";
 
 export default function App() {
+  const [locationId, setLocationId] = useState(null);
+
+  useEffect(() => {
+    getCurrentUser().then((user) => {
+      setLocationId(user?.locationId);
+    });
+  }, []);
+
+  const links = [
+    {
+      label: "📅 Connect Calendar",
+      path: `/locations/${locationId}/calendar/settings`,
+    },
+    {
+      label: "📥 Import Contacts",
+      path: `/locations/${locationId}/contacts/import`,
+    },
+    {
+      label: "⚙️ Create Workflow",
+      path: `/locations/${locationId}/workflows`,
+    },
+  ];
+
+  const handleClick = (path) => {
+    if (locationId) {
+      window.location.href = `https://app.gohighlevel.com${path}`;
+    }
+  };
+
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100vh',
-      fontFamily: 'sans-serif'
-    }}>
-      <h1>🚀 Welcome to the GHL Launchpad</h1>
-      <p>This is your fully interactive onboarding experience.</p>
+    <div className="flex flex-col gap-4 p-6">
+      <h1 className="text-2xl font-bold">🚀 Let’s Set Up Your Account</h1>
+      {links.map((link) => (
+        <button
+          key={link.label}
+          onClick={() => handleClick(link.path)}
+          className="px-4 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700"
+        >
+          {link.label}
+        </button>
+      ))}
     </div>
-  )
+  );
 }
+

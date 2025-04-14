@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { HLEmbed, getCurrentUser } from "./embedded-sdk";
+import { HLEmbed, getCurrentUser } from "@highleveldev/embedded-sdk";
 
 export default function App() {
   const [locationId, setLocationId] = useState(null);

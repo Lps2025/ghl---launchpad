@@ -1,11 +1,14 @@
-
 import { useEffect, useState } from "react";
-import { getCurrentUser } from "@highleveldev/embedded-sdk";
+import { HLEmbed, getCurrentUser } from "@highleveldev/embedded-sdk";
 
 export default function App() {
   const [locationId, setLocationId] = useState(null);
 
   useEffect(() => {
+    // ✅ Initialize the SDK first
+    HLEmbed.init();
+
+    // ✅ Then safely fetch the user
     getCurrentUser().then((user) => {
       setLocationId(user?.locationId);
     });
@@ -47,4 +50,3 @@ export default function App() {
     </div>
   );
 }
-
